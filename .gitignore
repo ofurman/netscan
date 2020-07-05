@@ -139,3 +139,9 @@ cython_debug/
 
 #virualenv
 env/
+
+#.env files
+*.env
+
+#vscode
+.vscode/
