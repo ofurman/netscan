@@ -34,6 +34,7 @@ class Scanner:
         result = subprocess.run(['nmap', '-sn', self.net_addr], capture_output=True)
         try:
             nmap_output = result.stdout.decode('utf-8')
+            print(nmap_output)
             ips = re.findall(ip_regex, nmap_output)
             macs = re.findall(mac_regex, nmap_output)
 

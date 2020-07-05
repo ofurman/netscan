@@ -7,12 +7,13 @@ from scanner import Scanner
 from db import Guest_db
 
 API_TOKEN = os.environ['API_TOKEN']
+print(API_TOKEN == "1319401421:AAFdcNTzaok070dbthlfd3QYQQR2TGMd8WA")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
 # Initialize bot and dispatcher
-bot = Bot(token=API_TOKEN)
+bot = Bot(token="1319401421:AAFdcNTzaok070dbthlfd3QYQQR2TGMd8WA")
 dp = Dispatcher(bot)
 db = Guest_db()
 scanner = Scanner()
@@ -20,14 +21,16 @@ guests = dict()
 
 def on_start():
     global guests
-    guests = 
+    guests = db.get_all()
 
 async def scanning(time_interval:int):
     while True:
         global guests
-        guests = scanner.get_guests()
+        actual_guests = scanner.get_guests()
+        new_guests = set(guests.keys()).symmetric_difference(set(actual_guests.keys()))
+        if new_guests in set(guests.keys())
         await asyncio.sleep(time_interval)
-        print(guests)
+        logging.info("Scanned")
 
 
 @dp.message_handler(commands=['start', 'help'])
@@ -40,8 +43,9 @@ async def send_welcome(message: types.Message):
 @dp.message_handler(commands=['scan'])
 async def send_welcome(message: types.Message):
     """
-    This handler will be called when user sends `/start` or `/help` command
+    This handler will be called when user sends `/scan` command
     """
+    guests = scanner.get_guests()
     await bot.send_message(message.from_user.id, str(guests))
 
 @dp.message_handler()

@@ -1,1 +1,1 @@
-from .scanner import Guests
+from .scanner import Scanner
