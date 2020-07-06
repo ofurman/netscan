@@ -16,5 +16,7 @@ class Guest_db:
         for key, value in new_guests:
             self.r.set(key, value)
 
+    def remove_guests(self, guests: list):
+        self.r.delete(guests)
 
 

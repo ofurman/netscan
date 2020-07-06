@@ -23,12 +23,19 @@ def on_start():
     global guests
     guests = db.get_all()
 
+def on_close():
+    global guests
+    db.set_guests(guests)
+
 async def scanning(time_interval:int):
     while True:
         global guests
         actual_guests = scanner.get_guests()
         new_guests = set(guests.keys()).symmetric_difference(set(actual_guests.keys()))
-        if new_guests in set(guests.keys())
+        if new_guests in set(guests.keys()):
+            db.remove_guests(new_guests):
+        elif new_guests in set(actual_guests.keys()):
+            
         await asyncio.sleep(time_interval)
         logging.info("Scanned")
 
@@ -50,13 +57,10 @@ async def send_welcome(message: types.Message):
 
 @dp.message_handler()
 async def echo(message: types.Message):
-    # old style:
-    # await bot.send_message(message.chat.id, message.text)
-
     await message.answer(message.text)
 
 
 if __name__ == '__main__':
     dp.loop.create_task(scanning(5))
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_start, on_shutdown=on_close)
     
