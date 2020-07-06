@@ -34,8 +34,7 @@ async def scanning(time_interval:int):
         new_guests = set(guests.keys()).symmetric_difference(set(actual_guests.keys()))
         if new_guests in set(guests.keys()):
             db.remove_guests(new_guests):
-        elif new_guests in set(actual_guests.keys()):
-            
+        guests = actual_guests
         await asyncio.sleep(time_interval)
         logging.info("Scanned")
 
